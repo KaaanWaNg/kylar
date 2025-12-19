@@ -1,0 +1,3 @@
+/Users/moukh/CLionProjects/kylar/cmake-build-debug/CMakeFiles/kylar.dir
+/Users/moukh/CLionProjects/kylar/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/moukh/CLionProjects/kylar/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -6,6 +6,9 @@
 #include <memory>
 #include <vector>
 #include <list>
+#include <map>
+#include <functional>
+#include <iostream>
 
 namespace sylar {
     class Logger;
@@ -31,17 +34,17 @@ namespace sylar {
         LogEvent() = default;
 
         int32_t getLine() const { return m_line; }
-        const char *getFile() const { return m_file; }
+        const char* getFile() const { return m_file; }
         int32_t getElapse() const { return m_elapse; }
         int32_t getThreadId() const { return m_threadId; }
         int32_t getFiberId() const { return m_fiberId; }
         uint64_t getTime() const { return m_time; }
-        const std::string &getContent() const {
+        const std::string& getContent() const {
             return this->m_content;
         }
 
     private:
-        const char *m_file = nullptr; // 文件名
+        const char* m_file = nullptr; // 文件名
         int32_t m_line = 0; // 行号
         int32_t m_elapse = 0; // 程序启动开始到现在的毫秒数
         int32_t m_threadId = 0; // 线程ID
@@ -55,7 +58,7 @@ namespace sylar {
     public:
         using ptr = std::shared_ptr<LogFormatter>;
 
-        LogFormatter(const std::string &pattern);
+        LogFormatter(const std::string& pattern);
 
         /*
          * 格式化日志事件,返回格式化后的字符串
@@ -78,9 +81,10 @@ namespace sylar {
         public:
             using ptr = std::shared_ptr<FormatItem>;
 
+            FormatItem(const std::string& fmt = "") {};
             virtual ~FormatItem() = default;
 
-            virtual void format(std::stringstream &os, std::shared_ptr<Logger> logger, LogLevel::level level, LogEvent::ptr event) = 0;
+            virtual void format(std::stringstream& os, std::shared_ptr<Logger> logger, LogLevel::level level, LogEvent::ptr event) = 0;
         };
 
     private:
@@ -112,11 +116,11 @@ namespace sylar {
     };
 
     // 日志器
-    class Logger : public std::enable_shared_from_this<Logger>{
+    class Logger : public std::enable_shared_from_this<Logger> {
     public:
         using ptr = std::shared_ptr<Logger>;
 
-        Logger(const std::string &name = "root");
+        Logger(const std::string& name = "root");
 
         void log(LogLevel::level level, const LogEvent::ptr& event);
 
@@ -136,10 +140,10 @@ namespace sylar {
         void delAppender(const LogAppender::ptr& appender);
 
         inline
-        void setLevel(LogLevel::level level) { m_level = level; }
+            void setLevel(LogLevel::level level) { m_level = level; }
 
         inline
-        LogLevel::level getLevel() const { return m_level; }
+            LogLevel::level getLevel() const { return m_level; }
 
         inline const std::string& getName() const { return m_name; }
 
@@ -170,7 +174,7 @@ namespace sylar {
     public:
         using ptr = std::shared_ptr<FileLogAppender>;
 
-        FileLogAppender(const std::string &filename);
+        FileLogAppender(const std::string& filename);
 
         void log(std::shared_ptr<Logger> logger, LogLevel::level level, LogEvent::ptr event) override;
 
